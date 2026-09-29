@@ -1,0 +1,116 @@
+﻿@model HotelManagement.ViewModels.OrderViewModel
+
+<h2>Create Order</h2>
+
+<div class="row">
+    <div class="col">
+        <form id="createOrderForm" class="p-3">
+            <input type="hidden" asp-for="OrderId" />
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label asp-for="CustomerName"></label>
+                    <input asp-for="CustomerName" type="text" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="TableId"></label>
+                <select asp-for="TableId" class="form-control">
+                    <option value="" hidden>-- Select Table --</option>
+                    @foreach (var table in Model.Tables)
+                    {
+                        <option value="@table.TableId">@table.DisplayTableName</option>
+                    }
+                </select>
+            </div>
+            
+            <h5>Order Items</h5>
+            <button type="button" class="btn btn-primary mb-3 float-end" id="additeminorderbtn">Add Item In Order</button>
+            <div id="errors" style="color:red"></div>
+            <table class="table table-bordered" id="orderItemsTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>Select Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th style="width: 60px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.OrderItems != null && Model.OrderItems.Count > 0)
+                    {
+                        for (int i = 0; i < Model.OrderItems.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="OrderItems[@i].OrderItemId" value="@Model.OrderItems[i].OrderItemId" "  />
+                                    <select asp-for="OrderItems[@i].ItemId" class="form-select itemNameD">
+                                        <option value="" hidden>-- Select Item --</option>
+                                        @foreach (var item in Model.ItemList)
+                                        {
+                                            <option value="@item.ItemId" data-price="@item.Price">@item.ItemName</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" step="any" name="OrderItems[@i].Price" class="form-control itemPrice" value="@Model.OrderItems[i].Price" min="1" />
+                                </td>
+                                <td>
+                                    <input type="number" name="OrderItems[@i].Quantity" class="form-control itemQty" value="@Model.OrderItems[i].Quantity" min="1" />
+                                </td>
+                                <td>
+                                    <input type="number" name="OrderItems[@i].FinalPrice" class="form-control itemTotal" value="@(Model.OrderItems[i].Price * Model.OrderItems[i].Quantity)" readonly />
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-danger btn-sm removeRow">X</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                <input type="hidden" name="OrderItems[0].OrderItemId" value="0" />
+                                <select name="OrderItems[0].ItemId" class="form-select itemNameD">
+                                    <option value="" hidden>-- Select Item --</option>
+                                    @foreach (var item in Model.ItemList)
+                                    {
+                                        <option value="@item.ItemId" data-price="@item.Price">@item.ItemName</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" step="any" name="OrderItems[0].Price" class="form-control itemPrice" min="1" />
+                            </td>
+                            <td>
+                                <input type="number" name="OrderItems[0].Quantity" class="form-control itemQty" min="1" />
+                            </td>
+                            <td>
+                                <input type="number" name="OrderItems[0].FinalPrice" class="form-control itemTotal" readonly />
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-danger btn-sm removeRow">X</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label>Total Bill Amount</label>
+                    <input type="text" asp-for="BillAmount" class="form-control" readonly value="@Model.BillAmount" />
+                </div>
+            </div>
+
+
+            <div class="text-start" style="margin-top: 50px;">
+                <button type="submit" class="btn btn-success" id="submitBtnCreateOrder">Save</button>
+                <a asp-action="OrderList" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

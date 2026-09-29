@@ -1,0 +1,24 @@
+﻿
+<h2>Order List</h2>
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <label>Start Date</label>
+        <input type="date" id="startDate" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label>End Date</label>
+        <input type="date" id="endDate" class="form-control" />
+    </div>
+    <div class="col-md-3 mt-4">
+        <button type="button" class="btn btn-primary" id="applyFilter">Apply</button>
+        <button class="btn btn-secondary" type="reset" id="applyFilter" onclick="FilterOrReset()">Reset</button>
+    </div>
+    <div class="col-md-3 mt-4">
+        <a class="btn btn-primary mb-3 float-end" href="/Order/CreateOrder">Add New Order</a>
+    </div>
+</div>
+
+
+
+<table class="table align-middle table-row-dashed fs-6 gy-5" id="orderList"></table>
