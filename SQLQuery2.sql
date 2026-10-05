@@ -1,5 +1,0 @@
-select * from [dbo].[OrderItemList]
-select * from [dbo].[OrderList]
-select * from [dbo].[ItemList]
-select * from [dbo].[TableList]
-select * from [dbo].[Users]
